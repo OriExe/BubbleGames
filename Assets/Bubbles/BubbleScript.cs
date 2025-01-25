@@ -49,7 +49,7 @@ public class BubbleScript : MonoBehaviour
                 Vector3 spawnPosition = transform.position + Random.insideUnitSphere * spawnRadius; //Spawn around the sphere
                 GameObject clone = Instantiate(clonePrefab, spawnPosition, Quaternion.identity);
 
-                string tag = "Unassigned";
+                string tag = "Untagged";
                 switch (spawnedFrom)
                 {
                     case BubbleSpawn.spawnLocation.left:

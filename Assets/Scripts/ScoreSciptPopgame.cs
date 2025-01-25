@@ -37,4 +37,9 @@ public class ScoreSciptPopgame : MonoBehaviour
         int temp = UnityEngine.Mathf.FloorToInt(score);
         playerScore += temp;
     }
+
+    public static int GetScore()
+    {
+        return playerScore;
+    }
 }
