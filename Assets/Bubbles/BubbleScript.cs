@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-
 using UnityEngine;
+
 
 public class BubbleScript : MonoBehaviour
 {
@@ -14,20 +12,32 @@ public class BubbleScript : MonoBehaviour
     [SerializeField] private float upSpeed;
     [SerializeField] private float FowardSpeed;
 
+
+    private BubbleSpawn.spawnLocation spawnedFrom = BubbleSpawn.spawnLocation.none;
+
     private Transform airLocation;
 
-    private Rigidbody2D rb;
-    private void OnMouseDown()
+    [SerializeField]private Rigidbody2D rb;
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        SpawnClones();
-
+        if (collision.tag == "Player") //Audio in Score script
+        {
+            SpawnClones();
+            ScoreSciptPopgame.SetScore(5f*1f/transform.localScale.x);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+ 
         airLocation = GameObject.FindGameObjectWithTag("Air").transform;
+
+   
     }
 
     void SpawnClones()
@@ -36,10 +46,20 @@ public class BubbleScript : MonoBehaviour
         {
             for (int i = 0; i < numberOfClones; i++)
             {
-                Vector3 spawnPosition = transform.position + Random.insideUnitSphere * spawnRadius;
+                Vector3 spawnPosition = transform.position + Random.insideUnitSphere * spawnRadius; //Spawn around the sphere
                 GameObject clone = Instantiate(clonePrefab, spawnPosition, Quaternion.identity);
 
-                // Scale the clone smaller
+                string tag = "Unassigned";
+                switch (spawnedFrom)
+                {
+                    case BubbleSpawn.spawnLocation.left:
+                        tag = "Left";
+                        break;
+                    case BubbleSpawn.spawnLocation.right:
+                        tag = "Right";
+                        break;
+                }
+                clone.tag = tag;
                 clone.transform.localScale *= cloneScaleFactor;
             }
         }
@@ -48,7 +68,49 @@ public class BubbleScript : MonoBehaviour
 
     private void Update()
     {
+        //Is Null
+        if (spawnedFrom == BubbleSpawn.spawnLocation.none)
+        {
+            switchTag();
+        }
 
-        rb.velocity = new Vector2(FowardSpeed, upSpeed);
+        if (spawnedFrom == BubbleSpawn.spawnLocation.left)
+        {
+            rb.velocity = new Vector2(FowardSpeed, upSpeed);
+
+        }
+        else if (spawnedFrom == BubbleSpawn.spawnLocation.right)
+        {
+            rb.velocity = new Vector2(-FowardSpeed, upSpeed);
+        }
+    }
+
+    private void switchTag()
+    {
+
+        switch (tag)
+        {
+            case "Right":
+                spawnedFrom = BubbleSpawn.spawnLocation.right;
+                break;
+            case "Left":
+                spawnedFrom = BubbleSpawn.spawnLocation.left;
+                break;
+        }
+        
+    }
+    public void whereBubbleSpawnedfrom(BubbleSpawn.spawnLocation location)
+    {
+        spawnedFrom = location;
+        switch (spawnedFrom)
+        {
+            case BubbleSpawn.spawnLocation.left:
+                tag = "Left";
+                break;
+            case BubbleSpawn.spawnLocation.right:
+                tag = "Right";
+                break;
+        }
+        switchTag();
     }
 }

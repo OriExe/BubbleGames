@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BubbleSpawn : MonoBehaviour
 {
-    public enum spawnLocation {left, right};
+    public enum spawnLocation {left, right, none};
 
     [SerializeField] private spawnLocation spawner;
     [SerializeField] private GameObject bubbles;
@@ -24,6 +24,7 @@ public class BubbleSpawn : MonoBehaviour
         if (timeleft <= 0)
         {
             GameObject temp = Instantiate(bubbles, transform.position, Quaternion.identity);
+            temp.GetComponent<BubbleScript>().whereBubbleSpawnedfrom(spawner);
             timeleft = spawnDelay;
         }
     }
