@@ -2,9 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.Experimental.GraphView;
+
 using UnityEngine;
-using UnityEngine.Playables;
+using UnityEngine.SceneManagement;
+
 
 public class GameManagerScript : MonoBehaviour
 {
@@ -16,6 +17,8 @@ public class GameManagerScript : MonoBehaviour
    [SerializeField] private GameObject endPage;
    [SerializeField]private TMP_Text ResultText;
    [SerializeField] private GameObject[] bubbleStars;
+    private float timeLeft;
+    private bool PlayerWon = false;
     #endregion
 
     public static GameManagerScript instance;
@@ -33,7 +36,7 @@ public class GameManagerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (timeToPlay > 0 || GameEnded)
+        if (timeToPlay > 0.9f || GameEnded)
         {
             timeToPlay -= Time.deltaTime;
             timer.text = Mathf.FloorToInt(timeToPlay).ToString();
@@ -46,7 +49,13 @@ public class GameManagerScript : MonoBehaviour
                 endGame();
             }
         }
+        #region EndGame
         
+            
+            
+        
+        #endregion 
+
     }
 
     public void endGame()
@@ -54,36 +63,46 @@ public class GameManagerScript : MonoBehaviour
         endPage.SetActive(true);
 
         Time.timeScale = 0f;
-        if (timeToPlay > 0)
+        if (timeToPlay > 1)
         {
             ResultText.text = "Oops you hit the red Bubble!";
         }
         else
         {
-            StartCoroutine(showResults());
-        }
-    }
-
-    IEnumerator showResults()
-    {
-        while (ScoreSciptPopgame.GetScore() != Int32.Parse(ResultText.text))
-        {
-            int temp = Int32.Parse(ResultText.text);
-            ResultText.text = Mathf.FloorToInt(UnityEngine.Mathf.Lerp(temp, ScoreSciptPopgame.GetScore(),3f)).ToString();
-
-            switch (Int32.Parse(ResultText.text))
+            PlayerWon = true;
+            ResultText.text = ScoreSciptPopgame.GetScore().ToString();
+            if (ScoreSciptPopgame.GetScore() >= 6000)
             {
-                case 6000:
-                    bubbleStars[0].SetActive(true);
-                    break;
-                case 18000:
-                    bubbleStars[1].SetActive(true);
-                    break;
-                case 60000:
-                    bubbleStars[2].SetActive(true);
-                    break;
+                StartCoroutine(showBubbleStar(bubbleStars[0], 1));
             }
-            yield return new WaitForEndOfFrame();
+
+            if (ScoreSciptPopgame.GetScore() >= 12000)
+            {
+                StartCoroutine(showBubbleStar(bubbleStars[1], 2));
+            }
+            if ((ScoreSciptPopgame.GetScore() >= 18000))
+            {
+                StartCoroutine(showBubbleStar(bubbleStars[2], 3));
+            }
+        }
+
+    }
+    
+    
+
+    IEnumerator showBubbleStar(GameObject toShow, int TimeLeft)
+    {
+        yield return new WaitForSecondsRealtime(timeLeft);
+        toShow.SetActive(true);
+    }
+    
+    public void changeScene()
+    {
+        if (SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex+1) != null) 
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex+1);
+        else
+        {
+            SceneManager.LoadScene(0);
         }
     }
 
