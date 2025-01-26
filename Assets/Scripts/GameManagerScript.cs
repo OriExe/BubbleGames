@@ -96,15 +96,7 @@ public class GameManagerScript : MonoBehaviour
         toShow.SetActive(true);
     }
     
-    public void changeScene()
-    {
-        if (SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex+1) != null) 
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex+1);
-        else
-        {
-            SceneManager.LoadScene(0);
-        }
-    }
+    
 
     
 }

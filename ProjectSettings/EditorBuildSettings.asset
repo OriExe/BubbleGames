@@ -6,6 +6,27 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
+    path: Assets/Scenes/MainMenu.unity
+    guid: 9500f3dd479c5ee418a6288665954fbb
+  - enabled: 1
+    path: Assets/Scenes/Tooth.unity
+    guid: 0792900ef25ed71479484f77b05a2bdf
+  - enabled: 1
+    path: Assets/Scenes/BubbblePop.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
+  - enabled: 1
+    path: Assets/Scenes/wtf.unity
+    guid: b77ec7bf8053476439c2a4a2ac2897a9
+  - enabled: 1
+    path: Assets/Scenes/Game Screen.unity
+    guid: 356281b74f05e454580b302b32ed8049
+  - enabled: 1
+    path: Assets/Scenes/You Win Screen.unity
+    guid: 334a3d2a0b5773c4fad99ece6475d5e6
+  - enabled: 1
+    path: Assets/Scenes/Game Over Screen.unity
+    guid: 6da8be810f1032b48aab794c36768a0f
+  - enabled: 1
+    path: Assets/Scenes/Mario.unity
+    guid: 564cb5ad1cede314fbd73184439e7b93
   m_configObjects: {}
