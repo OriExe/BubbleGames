@@ -10,7 +10,7 @@ EditorBuildSettings:
     guid: 9500f3dd479c5ee418a6288665954fbb
   - enabled: 1
     path: Assets/Scenes/Tooth.unity
-    guid: 0792900ef25ed71479484f77b05a2bdf
+    guid: 6e840424cc3971041bacd322fdf3adce
   - enabled: 1
     path: Assets/Scenes/BubbblePop.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
